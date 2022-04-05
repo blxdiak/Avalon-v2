@@ -413,7 +413,7 @@ function Library:create(options)
 		Name = "Dexterity",
 		Size = UDim2.fromOffset(600, 400),
 		Theme = self.Themes[settings.Theme],
-		Link = "https://discord.gg/BT8CwN64QF"
+		Link = "dexterity_hub"
 	}, options)
 
 	if getgenv and getgenv().MercuryUI then
