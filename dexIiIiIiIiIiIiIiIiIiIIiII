@@ -398,22 +398,22 @@ function Library:create(options)
 	}
 
 	if readfile and writefile and isfile then
-		if not isfile("DexteritySettings.json") then
-			writefile("DexteritySettings.json", HTTPService:JSONEncode(settings))
+		if not isfile("AvalonSettings.json") then
+			writefile("AvalonSettings.json", HTTPService:JSONEncode(settings))
 		end
-		settings = HTTPService:JSONDecode(readfile("DexteritySettings.json"))
+		settings = HTTPService:JSONDecode(readfile("AvalonSettings.json"))
 		Library.CurrentTheme = Library.Themes[settings.Theme]
 		updateSettings = function(property, value)
 			settings[property] = value
-			writefile("DexteritySettings.json", HTTPService:JSONEncode(settings))
+			writefile("AvalonSettings.json", HTTPService:JSONEncode(settings))
 		end
 	end
 
 	options = self:set_defaults({
-		Name = "Dexterity",
+		Name = "Avalon",
 		Size = UDim2.fromOffset(600, 400),
 		Theme = self.Themes[settings.Theme],
-		Link = "dexterity_hub"
+		Link = "https://discord.gg/BT8CwN64QF"
 	}, options)
 
 	if getgenv and getgenv().MercuryUI then
@@ -897,8 +897,8 @@ function Library:create(options)
 
 	rawset(mt, "creditsContainer", creditsTab.container)
 
-	creditsTab:credit{Name = "Dexterity", Description = "Scripting", Discord = "N/A", V3rmillion = "N/A"}
-	creditsTab:credit{Name = "Dexterity", Description = "idk", Discord = "N/A", V3rmillion = "N/A"}
+	creditsTab:credit{Name = "Saint", Description = "UI Library Developer", Discord = "Saint", V3rmillion = "N/A"}
+	creditsTab:credit{Name = "Saint", Description = "Scripter", Discord = "Saint", V3rmillion = "N/A"}
 
 	return mt
 end
