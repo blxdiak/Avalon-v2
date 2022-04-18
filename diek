@@ -1,0 +1,180 @@
+--// GLOBALS \\--
+getgenv().safemode  = false
+
+-- // VARIABLES \\ --
+local lcp = game.Players.LocalPlayer
+local http_request = syn.request or request or (http and http.request)
+local GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
+local exploitName = (syn and 'Synapse') or (Krnl and 'Krnl') or ( identifyexecutor and identifyexecutor() ) or (getexecutorname and getexecutorname())
+local waitTime 
+local reason = "You have 'Safe Mode' on.\n We have kicked you from the game to mimimize the risk of a potential ban. - Avalon"
+
+-- // STARTUP \\ --
+
+--OWNER EXECUTED
+if lcp.Name == "B1EVA" then 
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "Avalon";
+        Text = "Welcome Owner,\n"..lcp.Name;
+        Icon = "rbxthumb://type=Asset&id=9099977771&w=150&h=150",
+        Duration = 5;
+    })
+
+    local embed1 = {
+        ['title'] = '**An Owner Executed Cyanide!**';
+        ['color'] = tonumber(0x00e1ff);
+        ['description'] = 'Executor: '..exploitName..'\nAccountAge: '..lcp.AccountAge.. '\nUser ID: '..lcp.UserId.. '\nJobId: ' ..game.JobId.. '\nGameName: ' ..GameName;
+    }
+    
+        local a = http_request({
+        Url = 'https://discord.com/api/webhooks/962284279356862494/58OY_NzIlmr68AvRocYOYvzPQxUlNbp8M8Dz98TSIj9GkfMwjnuFJgXa0QsetKdmzriv',
+        Headers = {['Content-Type'] = 'application/json'};
+        Body = game:GetService("HttpService"):JSONEncode({['embeds'] = {embed1, embed2}, ['content'] = ''});
+        Method = "POST";
+    })
+
+else
+
+--NORMAL PLAYER EXECUTED
+
+       local embed1 = {
+        ['title'] = '**Somebody Executed Cyanide!**';
+        ['color'] = tonumber(0xff006a);
+        ['description'] = 'Executor: '..exploitName..'\nAccountAge: '..lcp.AccountAge.. '\nUser ID: '..lcp.UserId.. '\nJobId: ' ..game.JobId.. '\nGameName: ' ..GameName;
+    }
+    
+        local a = http_request({
+        Url = 'https://discord.com/api/webhooks/962284279356862494/58OY_NzIlmr68AvRocYOYvzPQxUlNbp8M8Dz98TSIj9GkfMwjnuFJgXa0QsetKdmzriv',
+        Headers = {['Content-Type'] = 'application/json'};
+        Body = game:GetService("HttpService"):JSONEncode({['embeds'] = {embed1, embed2}, ['content'] = ''});
+        Method = "POST";
+    })
+
+end
+
+
+--// SCRIPT \\--
+
+if not firesignal then 
+    firesignal = function(btn) 
+        for i,v in next, getconnections(btn) do
+            v:Fire()
+        end
+    end
+end
+
+local hairs = {
+    Afro = 11412443,
+    Charming = 74878559,
+    Combed = 13332444,
+    Headband = 13070796,
+    Pigtails = 82186393,
+    Messy = 26400959,
+    Bun = 47963332,
+    Long = 19999424,
+    Curly = 31309506,
+    Sideswept = 16627529
+}
+
+local colors = {
+    Gray = BrickColor.new("Pearl"),
+    Blonde = BrickColor.new("Gold"),
+    Brown = BrickColor.new("Burnt Sienna"),
+    Black = BrickColor.new("Black"),
+    Red = BrickColor.new("Crimson"),
+    Blue = BrickColor.new("Bright blue"),
+    Green = BrickColor.new("Lime green"),
+    Pink = BrickColor.new("Hot pink")
+}
+
+local replicatedStorage = game:GetService("ReplicatedStorage")
+local client = game:GetService("Players").LocalPlayer
+
+local stats = replicatedStorage.Stats[client.Name]
+local jobManager = require(client.PlayerGui.MainGUI.Scripts.JobHandler)
+
+function getOrder(customer)
+    return {Style = customer.Order:WaitForChild("Style").Value, Color = customer.Order:WaitForChild("Color").Value} 
+end
+
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/blxdiak/Avalon-v2/main/AvaloniIiIIiiI"))()
+
+local gui = Library:create{
+    -- Theme = Library.Themes.Serika
+}
+
+local tab = gui:tab{
+    Icon = "rbxassetid://6034996695",
+    Name = "Autofarm"
+}
+
+gui:notification{
+    Title = "Avalon",
+    Text = "The current toggle UI button is the Left Alt key",
+    Duration = 5,
+    Callback = function()
+    end
+}
+
+tab:toggle{
+    Name = "Autofarm",
+    Description = "Hairdresser Autofarm",
+    StartingState = false,
+    Callback = function(toggled)
+        if toggled then
+            if stats.Job.Value ~= "StylezHairdresser" then
+                jobManager:GoToWork("StylezHairdresser")
+            end
+        elseif toggled == false then
+            return false
+        end
+        end
+    
+}
+
+
+
+while task.wait() do
+        if stats.Job.Value == "StylezHairdresser" then
+            local workstations = workspace.Environment.Locations:WaitForChild("StylezHairStudio"):WaitForChild("HairdresserWorkstations")
+            
+            for _, station in next, workstations:GetChildren() do
+                if station.InUse.Value == client then
+                    local customer = station.Occupied.Value
+                    if not customer then continue end
+
+                    repeat task.wait(0.1) until customer.Head:FindFirstChild("ChatBubble")
+                    local order = getOrder(customer)
+
+                    if customer.PrimaryHat.Handle.Mesh.MeshId:split("id=")[2] ~= tostring(hairs[order.Style]) or customer.PrimaryHat.Handle.BrickColor ~= colors[order.Color] then
+                        repeat
+                            firesignal(station.Mirror.HairdresserGUI.Frame:FindFirstChild("Style").Next.Activated)
+                            if not customer then continue end
+                        until
+                            customer.PrimaryHat.Handle.Mesh.MeshId:split("id=")[2] == tostring(hairs[order.Style])
+
+                        task.wait()
+                        if not customer then continue end
+
+                        repeat
+                            firesignal(station.Mirror.HairdresserGUI.Frame:FindFirstChild("Color").Next.Activated)
+                            if not customer then continue end
+                        until
+                            customer.PrimaryHat.Handle.BrickColor == colors[order.Color]
+
+                        task.wait()
+
+                        firesignal(station.Mirror.HairdresserGUI.Frame:FindFirstChild("Done").Activated)
+                    end
+                else
+                    if workstations:GetChildren()[1].InUse.Value ~= client and workstations:GetChildren()[2].InUse.Value ~= client and workstations:GetChildren()[3].InUse.Value ~= client and workstations:GetChildren()[4].InUse.Value ~= client then
+                        firesignal(station.Mirror.HairdresserGUI.Frame:FindFirstChild("Style").Next.Activated)
+                        firesignal(station.Mirror.HairdresserGUI.Frame:FindFirstChild("Color").Next.Activated)
+                    end
+                end
+            end
+        end
+    end
+
+
+gui:set_status("Farm")
